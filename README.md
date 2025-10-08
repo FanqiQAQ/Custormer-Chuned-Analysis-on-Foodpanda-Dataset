@@ -7,20 +7,21 @@ We employed two mainstream machine learning models to predict customer churn: Lo
 1. Logistic Regression
 We chose Logistic Regression as the baseline model for binary classification prediction. The main reasons for this choice were:
 Easy to understand and interpret: The coefficients of a logistic regression model can be directly interpreted as the effect of an independent variable on the log-odds of the dependent variable. This allows for a clear understanding of which factors are related to customer churn.
-High computational efficiency: For most medium-sized datasets, logistic regression trains very quickly.
+High computational efficiency:
+For most medium-sized datasets, logistic regression trains very quickly.
 Model Results:
 Despite a low prediction accuracy of approximately 50% on the test set, the diagnostic results provided valuable insights. The model's fit, as indicated by the Residual Deviance of 7935.4, showed only a limited improvement over the Null Deviance of 8366.1. This suggests that the model failed to adequately capture the complex patterns in the data.
-2. LightGBM Model
+3. LightGBM Model
 Considering the linear limitations of logistic regression, we next attempted a more powerful non-linear model, LightGBM, which handles complex non-linear relationships by constructing multiple decision trees.
 Model Results:
 The accuracy of the LightGBM model showed only a marginal improvement, at approximately 53.9%. The model's AUC value was 0.537905, which is only slightly better than a random guess. This indicates that the problem may not be simply a matter of model selection.
-3. Analysis of Poor Model Performance
+4. Analysis of Poor Model Performance
 The poor performance of both models points to the root of the problem likely being insufficient feature information in the original dataset.
 Correlation Analysis: A correlation analysis of all major variables against the customer churn status revealed almost no linear relationship between them. Since logistic regression is a linear model, this directly explains its poor performance.
 Non-linear Model Limitations: Even a powerful non-linear model like LightGBM struggles to find valuable patterns when the features themselves lack strong predictive signals. This re-emphasizes that the quality and representativeness of data features are critical to successful modeling.
 Conclusion: Although we were unable to build a highly accurate predictive model, this process was still valuable. It highlighted that, beyond model complexity, deeper data insights and robust feature engineering are central to solving the problem.
 
-4. Business Insights from Key Variables
+5. Business Insights from Key Variables
 Despite the low predictive accuracy, the significance analysis from the logistic regression model allowed us to extract key variables that have a notable impact on customer churn, providing the following actionable business conclusions:
 Order Cancellation (delivery_statusCancelled): This is the strongest factor influencing customer churn. The logistic regression model showed a very high coefficient, indicating an extremely strong positive correlation between order cancellations and the likelihood of a customer becoming "Inactive."
 Business Insight: A negative customer experience, especially an order cancellation, is the most direct and forceful reason for churn. The platform should prioritize investments in optimizing its order management system to reduce cancellations due to inventory, delivery riders, or other issues. This is the most effective customer retention strategy.
@@ -43,7 +44,7 @@ By calculating the RFM values for each customer, we can compress complex custome
 3. Model Selection and Cluster Results Analysis
 We used the K-Means clustering algorithm to segment the RFM data. K-Means is a common unsupervised learning algorithm that automatically assigns data points to the most similar groups. To determine the optimal number of clusters (K), we employed the Elbow Method. This method finds the "elbow point" in a plot of the total within-cluster sum of squares for different K values, which indicates the optimal number of clusters.
 Based on our analysis, we segmented customers into four groups. The visualization of the clustering results is as follows:
-[Insert visualization of the RFM segmentation plot here]
+
 By analyzing the RFM characteristics of these four segmented groups, we drew the following conclusions:
 Group 1 (Red): New / Low-Value Active Customers
 Characteristics: These customers have purchased recently (small Recency value) but have a low total spend (small Monetary value).
@@ -61,7 +62,7 @@ Group 4 (Purple): Mid-Value Active Customers
 Characteristics: These customers have purchased recently (small Recency value) and their total spend is at a moderate level (mid-range Monetary value).
 Conclusion: This group is the stable foundation of your business. They are regular users who provide a consistent stream of revenue.
 Recommendation: Encourage them to increase their spending and frequency through loyalty programs, point rewards, or gamified "spending challenges" to move them toward the high-value customer group.
-4. Summary and Outlook
+5. Summary and Outlook
 This report, using RFM and K-Means clustering, successfully segmented the complex customer base into four easily understandable market segments. These conclusions provide a clear direction for the platform and its merchants, helping them allocate marketing and operational resources more precisely.
 Future work can delve deeper by:
 Integrating customer churn prediction models to provide more accurate churn risk assessments for each segment.
