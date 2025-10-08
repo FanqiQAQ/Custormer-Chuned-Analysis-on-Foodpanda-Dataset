@@ -1,96 +1,114 @@
 # Custormer-Churned-Analysis-on-Foodpanda-Dataset
-Customer Churn Prediction Analysis
-1. Research Objectives
-The goal of this analysis is to predict the likelihood of customer churn by analyzing Foodpanda's customer, order, and review data, and to deeply explore the key factors that influence churn. Our aim is to provide data-driven insights to the platform and its merchants to develop more effective customer retention strategies.
-2. Predictive Modeling Process and Results Analysis
-We employed two mainstream machine learning models to predict customer churn: Logistic Regression and LightGBM.
-1. Logistic Regression
-We chose Logistic Regression as the baseline model for binary classification prediction. The main reasons for this choice were:
-Easy to understand and interpret: The coefficients of a logistic regression model can be directly interpreted as the effect of an independent variable on the log-odds of the dependent variable. This allows for a clear understanding of which factors are related to customer churn.
-High computational efficiency:
-For most medium-sized datasets, logistic regression trains very quickly.
-Model Results:
-Despite a low prediction accuracy of approximately 50% on the test set, the diagnostic results provided valuable insights. The model's fit, as indicated by the Residual Deviance of 7935.4, showed only a limited improvement over the Null Deviance of 8366.1. This suggests that the model failed to adequately capture the complex patterns in the data.
-3. LightGBM Model
-Considering the linear limitations of logistic regression, we next attempted a more powerful non-linear model, LightGBM, which handles complex non-linear relationships by constructing multiple decision trees.
-Model Results:
-The accuracy of the LightGBM model showed only a marginal improvement, at approximately 53.9%. The model's AUC value was 0.537905, which is only slightly better than a random guess. This indicates that the problem may not be simply a matter of model selection.
-4. Analysis of Poor Model Performance
-The poor performance of both models points to the root of the problem likely being insufficient feature information in the original dataset.
-Correlation Analysis: A correlation analysis of all major variables against the customer churn status revealed almost no linear relationship between them. Since logistic regression is a linear model, this directly explains its poor performance.
-Non-linear Model Limitations: Even a powerful non-linear model like LightGBM struggles to find valuable patterns when the features themselves lack strong predictive signals. This re-emphasizes that the quality and representativeness of data features are critical to successful modeling.
-Conclusion: Although we were unable to build a highly accurate predictive model, this process was still valuable. It highlighted that, beyond model complexity, deeper data insights and robust feature engineering are central to solving the problem.
+# Foodpanda Customer Churn and Value Analysis
 
-5. Business Insights from Key Variables
-Despite the low predictive accuracy, the significance analysis from the logistic regression model allowed us to extract key variables that have a notable impact on customer churn, providing the following actionable business conclusions:
-Order Cancellation (delivery_statusCancelled): This is the strongest factor influencing customer churn. The logistic regression model showed a very high coefficient, indicating an extremely strong positive correlation between order cancellations and the likelihood of a customer becoming "Inactive."
-Business Insight: A negative customer experience, especially an order cancellation, is the most direct and forceful reason for churn. The platform should prioritize investments in optimizing its order management system to reduce cancellations due to inventory, delivery riders, or other issues. This is the most effective customer retention strategy.
-Customer Rating (rating): Customer ratings also have a significant impact on churn.
-Business Insight: The relationship between rating and churn needs further analysis. A potential explanation is that some loyal customers, after a single bad experience, give a high negative rating and churn quickly. The platform should establish a rapid response mechanism for low-rated orders, proactively contacting customers to rebuild trust.
-Loyalty Points (loyalty_points) and Order Frequency (order_frequency): These two variables showed some statistical significance and a negative correlation with churn.
-Business Insight: This aligns with intuition. Customers with high loyalty points or high order frequency are typically more stable and less likely to churn. This means the platform can use customer loyalty programs as a leading indicator of churn and offer customized incentives to customers whose points or order frequency are declining.
-These conclusions provide a clear direction for the platform and its merchants, helping them better understand and manage user churn, ultimately enhancing customer satisfaction and business value.
-________________________________________
-Customer Segmentation and Value Analysis
-1. Research Background and Objectives
-This part is a further exploration of the data following our previous customer churn prediction modeling using Logistic Regression and LightGBM. In that analysis, we found that despite using powerful predictive models, the accuracy was not ideal. This led us to understand that the complexity of customer churn may stem from a lack of strong linear or non-linear predictive signals in the data itself.
-Therefore, we are shifting our focus from "prediction" to "understanding" and "exploration." Our main objective is to use the RFM model and the K-Means clustering algorithm to scientifically segment our users. This will help the platform and its merchants better understand the characteristics, purchasing behaviors, and potential value of different user groups, providing a solid foundation for developing refined marketing and customer retention strategies.
-2. Analysis Method: The RFM Customer Value Model
-We use the RFM (Recency, Frequency, Monetary) model to measure customer value. The three key metrics of the RFM model are as follows:
-R (Recency) - Time Since Last Purchase: How long ago was the customer's last purchase? This metric reflects customer engagement; a smaller value means the customer is more active.
-F (Frequency) - Purchase Frequency: The number of purchases a customer has made over a period. This metric reflects customer loyalty; a larger value means the customer is more loyal.
-M (Monetary) - Monetary Value: The total amount of money a customer has spent. This metric reflects the customer's spending power; a larger value means a higher customer value.
-By calculating the RFM values for each customer, we can compress complex customer behavior data into three easily analyzable dimensions, which serves as a foundation for subsequent cluster analysis.
-3. Model Selection and Cluster Results Analysis
-We used the K-Means clustering algorithm to segment the RFM data. K-Means is a common unsupervised learning algorithm that automatically assigns data points to the most similar groups. To determine the optimal number of clusters (K), we employed the Elbow Method. This method finds the "elbow point" in a plot of the total within-cluster sum of squares for different K values, which indicates the optimal number of clusters.
-Based on our analysis, we segmented customers into four groups. The visualization of the clustering results is as follows:
+This repository contains a series of analyses on Foodpanda's customer data. The primary goal is to understand and predict customer churn, segment customers based on their value, and derive actionable business insights to improve customer retention and marketing strategies.
 
-By analyzing the RFM characteristics of these four segmented groups, we drew the following conclusions:
-Group 1 (Red): New / Low-Value Active Customers
-Characteristics: These customers have purchased recently (small Recency value) but have a low total spend (small Monetary value).
-Conclusion: This group represents the growth potential of your business. They are interested in the platform, but their spending habits are not yet established.
-Recommendation: Encourage them to make more repeat purchases with personalized new-user coupons, popular dish recommendations, or limited-time discounts to grow them into higher-value customers.
-Group 2 (Blue): High-Value Churn Risk Customers
-Characteristics: This group has a very high total spend (largest Monetary value) but has not purchased in a while (large Recency value).
-Conclusion: These customers were once your core revenue source but are now at risk of churning. They are the top priority for retention efforts.
-Recommendation: Launch targeted retention campaigns immediately. Use high-value, personalized initiatives such as exclusive VIP offers, dedicated customer support, or direct contact to understand their reasons for not purchasing again and reactivate their engagement.
-Group 3 (Green): Low-Value Churned Customers
-Characteristics: These customers have a low total spend (small Monetary value) and have not purchased for a long time (largest Recency value).
-Conclusion: This group has limited contribution to the business and has already churned.
-Recommendation: You can use low-cost, bulk marketing strategies (such as email campaigns or push notifications) to occasionally reach out to them. The bulk of retention resources should be focused on more promising groups.
-Group 4 (Purple): Mid-Value Active Customers
-Characteristics: These customers have purchased recently (small Recency value) and their total spend is at a moderate level (mid-range Monetary value).
-Conclusion: This group is the stable foundation of your business. They are regular users who provide a consistent stream of revenue.
-Recommendation: Encourage them to increase their spending and frequency through loyalty programs, point rewards, or gamified "spending challenges" to move them toward the high-value customer group.
-5. Summary and Outlook
-This report, using RFM and K-Means clustering, successfully segmented the complex customer base into four easily understandable market segments. These conclusions provide a clear direction for the platform and its merchants, helping them allocate marketing and operational resources more precisely.
-Future work can delve deeper by:
-Integrating customer churn prediction models to provide more accurate churn risk assessments for each segment.
-Combining the segmentation results with marketing campaign data to analyze the effectiveness of different strategies on each group.
-Utilizing the clustering results to provide more personalized product recommendations and ad targeting for customers.
-________________________________________
-Foodpanda Customer Value and Behavioral Insights Report
-1. Research Background and Objectives
-This report serves as a follow-up to our previous analyses on Foodpanda customer churn prediction. Our goal is to dive deeper into customer behavior and potential value through direct SQL queries. While our previous analyses provided a macro view of predictive models and customer segments, this report focuses on specific business metrics to gain more precise and actionable insights. The aim is to help the platform and its merchants develop targeted retention and growth strategies.
-2. Key Business Insights
-We conducted a multi-dimensional analysis of key business metrics using SQL, leading to the following crucial conclusions:
-1. Correlation Between Payment Method and Customer Churn
-We analyzed the churn rate of customers using different payment methods, and the results show:
-Payment Method	Total Customers	Churned Customers	Churn Rate
-Credit Card	122	12	9.8%
-Cash on Delivery	115	13	11.3%
-Insight: The churn rate for customers using Cash on Delivery is slightly higher than for credit card users. This may indicate that credit card users are more likely to be regular consumers of the platform, while Cash on Delivery users tend toward one-off or occasional purchases.
-Business Recommendation: The platform should encourage Cash on Delivery users to switch to online payment methods to increase their engagement and loyalty.
+## Table of Contents
+1.  [Customer Churn Prediction Analysis](#customer-churn-prediction-analysis)
+2.  [Customer Segmentation and Value Analysis (RFM)](#customer-segmentation-and-value-analysis-rfm)
+3.  [Customer Value and Behavioral Insights (SQL Analysis)](#customer-value-and-behavioral-insights-sql-analysis)
+4.  [Overall Conclusions and Future Work](#overall-conclusions-and-future-work)
 
-2. Correlation Between Customer Churn and Service Quality
-We analyzed the relationship between customers' average ratings and their churn status, with a surprising result:
-The average rating for churned customers (4.38) is slightly higher than for active customers (4.37).
-Insight: This counter-intuitive result suggests that customer churn is not solely driven by "low satisfaction." Customers who are truly dissatisfied may simply churn without leaving negative feedback.
-Business Recommendation: Do not overly rely on ratings as the sole indicator for churn warnings. More effective warning signs may be hidden in behavioral data, such as a sudden drop in order frequency or a prolonged period without a purchase.
-3. The Dynamic Balance Between Churn and Business Growth
-Our monthly analysis of customer churn and acquisition revealed a precise dynamic balance:
-The number of new customers acquired each month is equal to the number of customers who churn.
-Insight: This trend is a significant warning sign. It shows that while the platform's customer acquisition is stable, its customer retention strategy is clearly lacking, preventing overall growth of the customer base.
-Business Recommendation: Shift resources from pure customer acquisition to retention. By conducting a deep analysis of churned customers' behaviors and implementing targeted retention plans, can break this zero-growth cycle.
-4. Conclusion and Outlook
-Through this series of SQL queries, we have validated parts of our previous report and gained more specific business insights. Order cancellation remains the most direct and forceful cause of customer churn. Furthermore, the churn of high-value customers poses the greatest potential threat to the business.
+---
+
+## Customer Churn Prediction Analysis
+
+### 1. Research Objectives
+* [cite_start]To predict the likelihood of customer churn by analyzing customer, order, and review data[cite: 3].
+* [cite_start]To identify the key factors that influence customer churn[cite: 3].
+* [cite_start]To provide data-driven insights for developing effective customer retention strategies[cite: 4].
+
+### 2. Predictive Modeling and Results
+[cite_start]Two machine learning models were used for churn prediction: **Logistic Regression** and **LightGBM**[cite: 6].
+
+* [cite_start]**Logistic Regression**: Chosen as a baseline model for its interpretability and computational efficiency[cite: 8, 9, 11].
+    * [cite_start]**Result**: The model's performance was poor, with a prediction accuracy of only **50%**[cite: 13]. [cite_start]The analysis of deviance showed that the model failed to capture complex patterns in the data[cite: 14, 15].
+
+* [cite_start]**LightGBM**: A more powerful non-linear model was used to handle complex relationships in the data[cite: 17].
+    * [cite_start]**Result**: The model showed only a marginal improvement, with an accuracy of **53.9%** and an AUC value of **0.537905**, which is only slightly better than a random guess[cite: 19, 20].
+
+### 3. Analysis of Poor Model Performance
+[cite_start]The poor performance of both models was attributed to insufficient feature information in the dataset[cite: 23]. [cite_start]A correlation analysis revealed almost no linear relationship between the major variables and customer churn, which explains the failure of both the linear (Logistic Regression) and the more complex non-linear (LightGBM) models[cite: 24, 25, 26].
+
+### 4. Key Business Insights from Churn Analysis
+[cite_start]Despite the low predictive accuracy, the models provided valuable business insights[cite: 31]:
+
+* [cite_start]**Order Cancellation (`delivery_statusCancelled`)**: This is the **strongest factor** influencing customer churn[cite: 32]. [cite_start]A negative experience, especially an order cancellation, is the most direct reason for churn[cite: 34].
+    * [cite_start]**Recommendation**: Prioritize investments in optimizing the order management system to reduce cancellations[cite: 35]. [cite_start]This is the most effective retention strategy[cite: 36].
+
+* [cite_start]**Customer Rating (`rating`)**: Customer ratings have a significant impact on churn[cite: 37]. [cite_start]It's possible that loyal customers churn quickly after a single bad experience, leaving a high negative rating[cite: 39].
+    * [cite_start]**Recommendation**: Establish a rapid response mechanism for low-rated orders to proactively contact customers and rebuild trust[cite: 40].
+
+* [cite_start]**Loyalty and Frequency (`loyalty_points`, `order_frequency`)**: These variables showed a negative correlation with churn, meaning customers with high loyalty points and order frequency are less likely to churn[cite: 41, 42].
+    * [cite_start]**Recommendation**: Use loyalty programs as a leading indicator for churn risk and offer customized incentives to customers whose engagement is declining[cite: 43].
+
+---
+
+## Customer Segmentation and Value Analysis (RFM)
+
+### 1. Research Objectives
+[cite_start]Given the limitations of predictive modeling, the focus shifted from "prediction" to "understanding" and "exploration"[cite: 50]. [cite_start]The objective was to segment users scientifically using the **RFM (Recency, Frequency, Monetary) model** and the **K-Means clustering algorithm** to better understand different user groups[cite: 51, 54].
+
+### 2. Methodology
+* [cite_start]**RFM Model**: Measures customer value based on three metrics[cite: 54]:
+    * [cite_start]**Recency (R)**: Time since the last purchase (lower is better)[cite: 56, 57].
+    * [cite_start]**Frequency (F)**: Number of purchases over a period (higher is better)[cite: 58, 59].
+    * [cite_start]**Monetary (M)**: Total amount spent (higher is better)[cite: 60, 61].
+* [cite_start]**K-Means Clustering**: An unsupervised learning algorithm used to segment customers into distinct groups based on their RFM scores[cite: 64, 65]. [cite_start]The optimal number of clusters was determined to be four using the Elbow Method[cite: 66, 68].
+
+### 3. Customer Segments and Recommendations
+Four distinct customer groups were identified:
+
+* **Group 1: New / Low-Value Active Customers**
+    * [cite_start]**Characteristics**: Purchased recently but have a low total spend[cite: 72].
+    * [cite_start]**Recommendation**: Encourage repeat purchases with new-user coupons, popular recommendations, or limited-time discounts to grow their value[cite: 75].
+
+* **Group 2: High-Value Churn Risk Customers**
+    * [cite_start]**Characteristics**: High total spend but have not purchased in a while[cite: 77].
+    * [cite_start]**Conclusion**: These were core customers and are now a top priority for retention[cite: 78, 79].
+    * [cite_start]**Recommendation**: Immediately launch targeted retention campaigns with high-value, personalized offers or dedicated support to reactivate them[cite: 80].
+
+* **Group 3: Low-Value Churned Customers**
+    * [cite_start]**Characteristics**: Low total spend and have not purchased for a long time[cite: 82].
+    * **Recommendation**: Use low-cost, bulk marketing strategies (e.g., email campaigns) to occasionally reach out. [cite_start]Retention resources should be focused on more promising groups[cite: 84, 85].
+
+* **Group 4: Mid-Value Active Customers**
+    * [cite_start]**Characteristics**: Purchased recently with a moderate total spend[cite: 87].
+    * [cite_start]**Conclusion**: This group forms the stable foundation of the business, providing a consistent revenue stream[cite: 88, 89].
+    * [cite_start]**Recommendation**: Encourage increased spending and frequency through loyalty programs and gamified challenges to move them into the high-value segment[cite: 90].
+
+---
+
+## Customer Value and Behavioral Insights (SQL Analysis)
+
+### 1. Research Objectives
+[cite_start]This analysis serves as a follow-up to the previous reports, using direct SQL queries to dive deeper into specific business metrics and gain more precise, actionable insights[cite: 100, 101, 102].
+
+### 2. Key Business Insights from SQL Queries
+
+* **Payment Method and Churn**:
+    * [cite_start]**Finding**: The churn rate for **Cash on Delivery (11.3%)** is slightly higher than for **Credit Card (9.8%)** users[cite: 108, 109].
+    * [cite_start]**Recommendation**: Encourage Cash on Delivery users to switch to online payment methods to increase their engagement and loyalty[cite: 111].
+
+* **Service Quality and Churn**:
+    * [cite_start]**Finding**: The average rating for churned customers (4.38) is slightly **higher** than for active customers (4.37)[cite: 114].
+    * **Insight**: This counter-intuitive result suggests that customer churn is not solely driven by low satisfaction. [cite_start]Relying only on ratings as a churn indicator is not sufficient[cite: 115, 117]. [cite_start]Behavioral data, like a drop in order frequency, may be a more effective warning sign[cite: 118].
+
+* **Churn and Business Growth**:
+    * [cite_start]**Finding**: The number of new customers acquired each month is **equal** to the number of customers who churn[cite: 121].
+    * [cite_start]**Insight**: This "zero-growth" cycle is a significant warning sign, indicating that the customer retention strategy is lacking[cite: 122].
+    * [cite_start]**Recommendation**: Shift resources from pure customer acquisition to customer retention by analyzing churned customer behavior and implementing targeted retention plans[cite: 123, 124].
+
+---
+
+## Overall Conclusions and Future Work
+
+### Conclusions
+1.  [cite_start]**Order Cancellation is the Primary Driver of Churn**: Across all analyses, order cancellation consistently emerged as the most direct and forceful cause of customer churn[cite: 32, 127].
+2.  [cite_start]**High-Value Customers Pose the Greatest Churn Risk**: The churn of high-value customers represents the most significant potential threat to the business[cite: 128].
+3.  **Retention is Key to Growth**: The platform is stuck in a zero-growth cycle where new customer acquisition is cancelled out by churn. [cite_start]A strategic shift towards customer retention is critical for sustainable growth[cite: 122, 123].
+
+### Future Work
+* [cite_start]Integrate churn prediction models with customer segments to provide more accurate churn risk assessments for each group[cite: 95].
+* [cite_start]Analyze the effectiveness of different marketing strategies on each customer segment[cite: 96].
+* [cite_start]Utilize clustering results to provide more personalized product recommendations and ad targeting[cite: 97].
