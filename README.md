@@ -1,4 +1,4 @@
-# Custormer-Chuned-Analysis-on-Foodpanda-Dataset
+# Custormer-Churned-Analysis-on-Foodpanda-Dataset
 Customer Churn Prediction Analysis
 1. Research Objectives
 The goal of this analysis is to predict the likelihood of customer churn by analyzing Foodpanda's customer, order, and review data, and to deeply explore the key factors that influence churn. Our aim is to provide data-driven insights to the platform and its merchants to develop more effective customer retention strategies.
